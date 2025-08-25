@@ -267,68 +267,80 @@
         );
       } catch { return iso || "—"; }
     }
-    function parseVersionFromName(name, kind) {
-      const rxSemver = new RegExp(`${kind}[^\\d]*(\\d+\\.\\d+\\.\\d+)`, "i");
-      const rxDate   = /(\d{4}[-_.]?\d{2}[-_.]?\d{2})/;
-      const m1 = name.match(rxSemver);
-      if (m1) return m1[1];
-      const m2 = name.match(rxDate);
-      if (m2) return m2[1].replace(/[-_.]/g, "-");
-      return null;
+function parseVersionFromName(name) {
+  // Accepte : v596.13, 596.13, v3.04, 3.04, v1.2.3, 1.2.3
+  const rx = /v?(\d+\.\d+(?:\.\d+)?)/i;
+  const m = name.match(rx);
+  if (m) return m[1];
+
+  // Sinon: tente une date style 2025-08-24 ou 20250824
+  const rxDate = /(\d{4})[-_.]?(\d{2})[-_.]?(\d{2})/;
+  const d = name.match(rxDate);
+  if (d) return `${d[1]}-${d[2]}-${d[3]}`;
+  return null;
+}
+
+async function loadLatestRelease() {
+  const $fwVer = document.getElementById("fw-ver");
+  const $swVer = document.getElementById("sw-ver");
+  const $date  = document.getElementById("rel-date");
+  const $btnB  = document.getElementById("btn-bios");
+  const $btnS  = document.getElementById("btn-soft");
+  const t = translations[localStorage.getItem('lang')||'fr'];
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases/latest`, {
+      headers: { "Accept": "application/vnd.github+json" }
+    });
+    if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+    const release = await res.json();
+
+    // Cherche l’asset BIOS et SOFT sans forcer l’extension
+    const assets = Array.isArray(release.assets) ? release.assets : [];
+    const bios = assets.find(a => /bios/i.test(a.name));
+    const soft = assets.find(a => /soft/i.test(a.name));
+
+    // Version depuis le nom; sinon, tag
+    const tagVer = release.tag_name || "";
+    const biosVer = bios ? (parseVersionFromName(bios.name) || tagVer || "—") : "—";
+    const softVer = soft ? (parseVersionFromName(soft.name) || tagVer || "—") : "—";
+
+    $fwVer.textContent = biosVer;
+    $swVer.textContent = softVer;
+    $date.textContent  = (release.published_at || release.created_at)
+      ? new Date(release.published_at || release.created_at)
+          .toLocaleString('fr-FR', { timeZone: "Europe/Paris", year:"numeric", month:"long", day:"2-digit", hour:"2-digit", minute:"2-digit" })
+      : "—";
+
+    // Active les boutons si URL dispo
+    if (bios && bios.browser_download_url) {
+      $btnB.href = bios.browser_download_url;
+      $btnB.classList.add("ready");
+      $btnB.setAttribute("aria-disabled", "false");
+    } else {
+      $btnB.textContent = t.biosNA;
     }
-    async function loadLatestRelease() {
-      const $fwVer = document.getElementById("fw-ver");
-      const $swVer = document.getElementById("sw-ver");
-      const $date  = document.getElementById("rel-date");
-      const $btnB  = document.getElementById("btn-bios");
-      const $btnS  = document.getElementById("btn-soft");
-      const t = translations[localStorage.getItem('lang')||'fr'];
 
-      try {
-        const res = await fetch(apiLatest, { headers: { "Accept": "application/vnd.github+json" }});
-        if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
-        const release = await res.json();
-
-        const assets = release.assets || [];
-        const bios = assets.find(a => /bios/i.test(a.name));
-        const soft = assets.find(a => /soft/i.test(a.name));
-
-        const tagVer = release.tag_name || "";
-        const biosVer = bios ? (parseVersionFromName(bios.name, "bios") || tagVer) : "—";
-        const softVer = soft ? (parseVersionFromName(soft.name, "soft") || tagVer) : "—";
-
-        $fwVer.textContent = biosVer || "—";
-        $swVer.textContent = softVer || "—";
-        $date.textContent  = formatDateFR(release.published_at || release.created_at || "");
-
-        if (bios?.browser_download_url) {
-          $btnB.href = bios.browser_download_url;
-          $btnB.classList.add("ready");
-          $btnB.setAttribute("aria-disabled", "false");
-        } else {
-          $btnB.textContent = t.biosNA;
-        }
-
-        if (soft?.browser_download_url) {
-          $btnS.href = soft.browser_download_url;
-          $btnS.classList.add("ready");
-          $btnS.setAttribute("aria-disabled", "false");
-        } else {
-          $btnS.textContent = t.softNA;
-        }
-
-      } catch (err) {
-        console.error(err);
-        $date.textContent = "—";
-        $fwVer.textContent = "—";
-        $swVer.textContent = "—";
-        // Si tu utilises des noms d'assets fixes, décommente ce fallback :
-        // $btnB.href = `https://github.com/${OWNER}/${REPO}/releases/latest/download/bios_latest.bin`;
-        // $btnS.href = `https://github.com/${OWNER}/${REPO}/releases/latest/download/soft_latest.zip`;
-        // $btnB.classList.add("ready"); $btnB.setAttribute("aria-disabled","false");
-        // $btnS.classList.add("ready"); $btnS.setAttribute("aria-disabled","false");
-      }
+    if (soft && soft.browser_download_url) {
+      $btnS.href = soft.browser_download_url;
+      $btnS.classList.add("ready");
+      $btnS.setAttribute("aria-disabled", "false");
+    } else {
+      $btnS.textContent = t.softNA;
     }
+
+  } catch (err) {
+    console.error(err);
+    $date.textContent = "—";
+    $fwVer.textContent = "—";
+    $swVer.textContent = "—";
+    // Fallback possible si tu publies aussi des noms fixes:
+    // $btnB.href = `https://github.com/${OWNER}/${REPO}/releases/latest/download/bios_latest.zip`;
+    // $btnS.href = `https://github.com/${OWNER}/${REPO}/releases/latest/download/soft_latest.zip`;
+    // $btnB.classList.add("ready"); $btnB.setAttribute("aria-disabled","false");
+    // $btnS.classList.add("ready"); $btnS.setAttribute("aria-disabled","false");
+  }
+}
     // --- fin bloc release ---
 
     // Initialisation
@@ -412,3 +424,4 @@
   </script>
 </body>
 </html>
+
