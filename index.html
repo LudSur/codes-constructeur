@@ -39,103 +39,48 @@
       width: 90%; max-width: 360px;
       text-align: center;
     }
-    .logo {
-      width: 120px; margin: 0 auto 1rem; display: block;
-    }
-    h1 {
-      color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem;
-    }
-    #controls {
-      display: flex; flex-wrap: wrap;
-      justify-content: center; align-items: center;
-      gap: .5rem; margin-bottom: 1.5rem;
-    }
+    .logo { width: 120px; margin: 0 auto 1rem; display: block; }
+    h1 { color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem; }
+    #controls { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .5rem; margin-bottom: 1.5rem; }
     [role="radiogroup"] { display: flex; gap: .5rem; }
-    label {
-      position: relative; padding-left: 1.8rem;
-      font-size: .9rem; color: var(--text-secondary);
-      cursor: pointer; user-select: none;
-    }
-    input[type="radio"] {
-      position: absolute; opacity: 0; cursor: pointer;
-    }
-    input[type="radio"] + span {
-      position: absolute; left:0; top:50%; transform:translateY(-50%);
-      width:1rem; height:1rem;
-      border:2px solid var(--accent); border-radius:50%;
-    }
-    input[type="radio"]:checked + span {
-      background: var(--accent);
-    }
-    input[type="date"] {
-      padding: .4rem .5rem;
-      border:1px solid #ccc;
-      border-radius:6px;
-      font-size:.9rem;
-      background: var(--bg-card);
-      color: var(--text-primary);
-    }
-    .code-block {
-      background: var(--bg-page);
-      margin: .5rem 0;
-      padding: .8rem 1rem;
-      border-radius:8px;
-      box-shadow:0 2px 8px var(--shadow);
-    }
-    .label-code {
-      font-size:.8rem; color:var(--text-secondary);
-      text-transform:uppercase; margin-bottom:.3rem;
-    }
-    .code-wrapper {
-      display:flex; align-items:center; justify-content:center;
-    }
-    .code-value {
-      font-size:2.5rem; font-weight:bold;
-      color:var(--accent); line-height:1;
-    }
-    .copy-btn {
-      background:none; border:none; margin-left:.5rem;
-      font-size:1.2rem; cursor:pointer; color:var(--text-secondary);
-    }
+    label { position: relative; padding-left: 1.8rem; font-size: .9rem; color: var(--text-secondary); cursor: pointer; user-select: none; }
+    input[type="radio"] { position: absolute; opacity: 0; cursor: pointer; }
+    input[type="radio"] + span { position: absolute; left:0; top:50%; transform:translateY(-50%); width:1rem; height:1rem; border:2px solid var(--accent); border-radius:50%; }
+    input[type="radio"]:checked + span { background: var(--accent); }
+    input[type="date"] { padding: .4rem .5rem; border:1px solid #ccc; border-radius:6px; font-size:.9rem; background: var(--bg-card); color: var(--text-primary); }
+    .code-block { background: var(--bg-page); margin: .5rem 0; padding: .8rem 1rem; border-radius:8px; box-shadow:0 2px 8px var(--shadow); }
+    .label-code { font-size:.8rem; color:var(--text-secondary); text-transform:uppercase; margin-bottom:.3rem; }
+    .code-wrapper { display:flex; align-items:center; justify-content:center; }
+    .code-value { font-size:2.5rem; font-weight:bold; color:var(--accent); line-height:1; }
+    .copy-btn { background:none; border:none; margin-left:.5rem; font-size:1.2rem; cursor:pointer; color:var(--text-secondary); }
     .copy-btn:focus { outline:2px solid var(--accent); }
-    @keyframes pulse {
-      0%   { box-shadow:0 0 0 0 rgba(var(--accent-rgb),.7); }
-      70%  { box-shadow:0 0 0 10px rgba(var(--accent-rgb),0); }
-      100% { box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); }
-    }
+    @keyframes pulse { 0%{ box-shadow:0 0 0 0 rgba(var(--accent-rgb),.7);} 70%{ box-shadow:0 0 0 10px rgba(var(--accent-rgb),0);} 100%{ box-shadow:0 0 0 0 rgba(var(--accent-rgb),0);} }
     .pulse { animation:pulse .8s ease-out; }
 
-    .footer-btns {
-      display:flex; justify-content:center;
-      align-items:center; gap:.5rem; margin-top:1rem;
+    /* Zone téléchargements */
+    #mcx-downloads { margin-top: 1rem; text-align:left; }
+    #mcx-downloads h2 { font-size:1rem; color: var(--accent); margin-bottom:.5rem; text-align:center; }
+    .ver-grid { display:grid; grid-template-columns:auto 1fr; gap:.15rem .5rem; font-size:.85rem; color:var(--text-secondary); margin-bottom:.5rem; }
+    .btn-row { display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; }
+    .btn-dl {
+      display:inline-block; padding:.55rem .8rem; border-radius:8px; border:1px solid #d0d7de;
+      background:#f6f8fa; text-decoration:none; font-weight:600; font-size:.9rem;
+      pointer-events:none; opacity:.6; transition:transform .06s ease, box-shadow .06s ease;
     }
-    .footer-btns button,
-    .footer-btns summary {
-      background:none; border:none; cursor:pointer;
-      font-size:1.2rem; color:var(--accent);
-    }
+    .btn-dl.ready { pointer-events:auto; opacity:1; background:#fff; box-shadow:0 1px 0 rgba(27,31,36,0.04), 0 1px 3px rgba(27,31,36,0.15); }
+    .btn-dl.ready:active { transform: translateY(1px); }
+
+    .footer-btns { display:flex; justify-content:center; align-items:center; gap:.5rem; margin-top:1rem; }
+    .footer-btns button, .footer-btns summary { background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--accent); }
     .footer-btns details summary { list-style:none; }
     .lang-selector ul {
-      position:absolute; top:1.4em; right:0;
-      margin:0; padding:.2rem 0; list-style:none;
-      background:var(--bg-card); border:1px solid #ccc;
-      border-radius:4px; box-shadow:0 2px 8px var(--shadow);
-      display:none; z-index:10;
+      position:absolute; top:1.4em; right:0; margin:0; padding:.2rem 0; list-style:none;
+      background:var(--bg-card); border:1px solid #ccc; border-radius:4px; box-shadow:0 2px 8px var(--shadow); display:none; z-index:10;
     }
     .lang-selector[open] ul { display:block; }
-    .lang-selector ul li {
-      padding:.3rem .8rem; font-size:.85rem;
-      color:var(--text-primary); white-space:nowrap;
-      cursor:pointer;
-    }
+    .lang-selector ul li { padding:.3rem .8rem; font-size:.85rem; color:var(--text-primary); white-space:nowrap; cursor:pointer; }
     .lang-selector ul li:hover { background:var(--bg-page); }
-
-    .disclaimer {
-      margin-top:1rem; font-size:.75rem;
-      color:var(--text-secondary);
-      text-align:center; line-height:1.2;
-      white-space:pre-wrap;
-    }
+    .disclaimer { margin-top:1rem; font-size:.75rem; color:var(--text-secondary); text-align:center; line-height:1.2; white-space:pre-wrap; }
   </style>
 </head>
 <body>
@@ -178,6 +123,21 @@
       </div>
     </div>
 
+    <!-- === NOUVELLE SECTION : Versions & Téléchargements === -->
+    <section id="mcx-downloads">
+      <h2 id="dl-title">Téléchargements MCX – Dernière version</h2>
+      <div class="ver-grid">
+        <div id="lbl-fw">Firmware :</div><div><span id="fw-ver">—</span></div>
+        <div id="lbl-sw">Programme :</div><div><span id="sw-ver">—</span></div>
+        <div id="lbl-date">Mise à jour :</div><div><span id="rel-date">—</span></div>
+      </div>
+      <div class="btn-row">
+        <a id="btn-bios" href="#" class="btn-dl" download aria-disabled="true">Télécharger le BIOS</a>
+        <a id="btn-soft" href="#" class="btn-dl" download aria-disabled="true">Télécharger le Soft</a>
+      </div>
+    </section>
+    <!-- === FIN SECTION === -->
+
     <div class="footer-btns">
       <button id="share-btn" aria-label="Partager">🔗</button>
       <button id="help-btn" aria-label="Documentation technique">📖</button>
@@ -200,28 +160,58 @@
   </div>
 
   <script>
-    // Traductions complètes
+    // Traductions complètes (+ libellés téléchargements)
     const translations = {
       fr:{ title:"Codes Constructeur", auto:"Auto", manuel:"Manuel", matin:"Matin", apres:"Après-midi",
-           disclaimer:"Réservé aux techniciens Hydronic.\nToute utilisation sans autorisation entraîne la rupture de garantie de la CTA." },
+           disclaimer:"Réservé aux techniciens Hydronic.\nToute utilisation sans autorisation entraîne la rupture de garantie de la CTA.",
+           dlTitle:"Téléchargements MCX – Dernière version", lblFw:"Firmware :", lblSw:"Programme :", lblDate:"Mise à jour :",
+           btnBios:"Télécharger le BIOS", btnSoft:"Télécharger le Soft",
+           biosNA:"BIOS indisponible (dernière release)", softNA:"Soft indisponible (dernière release)" },
       en:{ title:"Manufacturer Codes", auto:"Auto", manuel:"Manual", matin:"Morning", apres:"Afternoon",
-           disclaimer:"For Hydronic technicians only.\nUnauthorized use voids the CTA warranty." },
+           disclaimer:"For Hydronic technicians only.\nUnauthorized use voids the CTA warranty.",
+           dlTitle:"MCX Downloads – Latest release", lblFw:"Firmware:", lblSw:"Program:", lblDate:"Updated:",
+           btnBios:"Download BIOS", btnSoft:"Download Soft",
+           biosNA:"BIOS not available (latest release)", softNA:"Soft not available (latest release)" },
       de:{ title:"Hersteller-Codes", auto:"Auto", manuel:"Manuell", matin:"Morgen", apres:"Nachmittag",
-           disclaimer:"Nur für Hydronic-Techniker.\nUnbefugte Nutzung führt zum Garantieverlust der CTA." },
+           disclaimer:"Nur für Hydronic-Techniker.\nUnbefugte Nutzung führt zum Garantieverlust der CTA.",
+           dlTitle:"MCX Downloads – Neueste Version", lblFw:"Firmware:", lblSw:"Programm:", lblDate:"Aktualisiert:",
+           btnBios:"BIOS herunterladen", btnSoft:"Soft herunterladen",
+           biosNA:"BIOS nicht verfügbar (neueste Release)", softNA:"Soft nicht verfügbar (neueste Release)" },
       es:{ title:"Códigos Constructores", auto:"Auto", manuel:"Manual", matin:"Mañana", apres:"Tarde",
-           disclaimer:"Reservado a técnicos Hydronic.\nEl uso no autorizado anula la garantía de la CTA." },
+           disclaimer:"Reservado a técnicos Hydronic.\nEl uso no autorizado anula la garantía de la CTA.",
+           dlTitle:"Descargas MCX – Última versión", lblFw:"Firmware:", lblSw:"Programa:", lblDate:"Actualizado:",
+           btnBios:"Descargar BIOS", btnSoft:"Descargar Soft",
+           biosNA:"BIOS no disponible (última release)", softNA:"Soft no disponible (última release)" },
       it:{ title:"Codici Costruttore", auto:"Auto", manuel:"Manuale", matin:"Mattina", apres:"Pomeriggio",
-           disclaimer:"Riservato ai tecnici Hydronic.\nL'uso non autorizzato annulla la garanzia CTA." },
+           disclaimer:"Riservato ai tecnici Hydronic.\nL'uso non autorizzato annulla la garanzia CTA.",
+           dlTitle:"Download MCX – Ultima release", lblFw:"Firmware:", lblSw:"Programma:", lblDate:"Aggiornato:",
+           btnBios:"Scarica BIOS", btnSoft:"Scarica Soft",
+           biosNA:"BIOS non disponibile (ultima release)", softNA:"Soft non disponibile (ultima release)" },
       pt:{ title:"Códigos do Fabricante", auto:"Auto", manuel:"Manual", matin:"Manhã", apres:"Tarde",
-           disclaimer:"Reservado para técnicos Hydronic.\nO uso não autorizado anula a garantia da CTA." },
+           disclaimer:"Reservado para técnicos Hydronic.\nO uso não autorizado anula a garantia da CTA.",
+           dlTitle:"Downloads MCX – Última versão", lblFw:"Firmware:", lblSw:"Programa:", lblDate:"Atualizado:",
+           btnBios:"Baixar BIOS", btnSoft:"Baixar Soft",
+           biosNA:"BIOS indisponível (última release)", softNA:"Soft indisponível (última release)" },
       nl:{ title:"Fabrikantcodes", auto:"Auto", manuel:"Handmatig", matin:"Ochtend", apres:"Middag",
-           disclaimer:"Voorbehouden aan Hydronic-technici.\nOngeautoriseerd gebruik leidt tot verlies van de CTA-garantie." },
+           disclaimer:"Voorbehouden aan Hydronic-technici.\nOngeautoriseerd gebruik leidt tot verlies van de CTA-garantie.",
+           dlTitle:"MCX Downloads – Laatste release", lblFw:"Firmware:", lblSw:"Programma:", lblDate:"Bijgewerkt:",
+           btnBios:"BIOS downloaden", btnSoft:"Soft downloaden",
+           biosNA:"BIOS niet beschikbaar (laatste release)", softNA:"Soft niet beschikbaar (laatste release)" },
       sv:{ title:"Tillverkarkoder", auto:"Auto", manuel:"Manuell", matin:"Morgon", apres:"Eftermiddag",
-           disclaimer:"Endast för Hydronic-tekniker.\nObehörig användning upphäver CTA-garantin." },
+           disclaimer:"Endast för Hydronic-tekniker.\nObehörig användning upphäver CTA-garantin.",
+           dlTitle:"MCX-nedladdningar – Senaste version", lblFw:"Firmware:", lblSw:"Program:", lblDate:"Uppdaterad:",
+           btnBios:"Ladda ner BIOS", btnSoft:"Ladda ner Soft",
+           biosNA:"BIOS ej tillgänglig (senaste release)", softNA:"Soft ej tillgänglig (senaste release)" },
       fi:{ title:"Valmistajakoodit", auto:"Auto", manuel:"Manuaalinen", matin:"Aamu", apres:"Ilta",
-           disclaimer:"Vain Hydronic-teknikoille.\nLuvaton käyttö mitätöi CTA-takuun." },
+           disclaimer:"Vain Hydronic-teknikoille.\nLuvaton käyttö mitätöi CTA-takuun.",
+           dlTitle:"MCX-lataukset – Uusin julkaisu", lblFw:"Laiteohjelma:", lblSw:"Ohjelma:", lblDate:"Päivitetty:",
+           btnBios:"Lataa BIOS", btnSoft:"Lataa Soft",
+           biosNA:"BIOS ei saatavilla (uusin julkaisu)", softNA:"Soft ei saatavilla (uusin julkaisu)" },
       da:{ title:"Producentkoder", auto:"Auto", manuel:"Manuel", matin:"Morgen", apres:"Eftermiddag",
-           disclaimer:"Kun for Hydronic-teknikere.\nUautoriseret brug ophæver CTA-garantien." }
+           disclaimer:"Kun for Hydronic-teknikere.\nUautoriseret brug ophæver CTA-garantien.",
+           dlTitle:"MCX downloads – Seneste release", lblFw:"Firmware:", lblSw:"Program:", lblDate:"Opdateret:",
+           btnBios:"Hent BIOS", btnSoft:"Hent Soft",
+           biosNA:"BIOS ikke tilgængelig (seneste release)", softNA:"Soft ikke tilgængelig (seneste release)" }
     };
 
     // Applique la langue
@@ -233,6 +223,15 @@
       document.getElementById('label-matin').textContent = t.matin;
       document.getElementById('label-apres').textContent = t.apres;
       document.getElementById('disclaimer').textContent  = t.disclaimer;
+
+      // libellés téléchargements
+      document.getElementById('dl-title').textContent = t.dlTitle;
+      document.getElementById('lbl-fw').textContent   = t.lblFw;
+      document.getElementById('lbl-sw').textContent   = t.lblSw;
+      document.getElementById('lbl-date').textContent = t.lblDate;
+      document.getElementById('btn-bios').textContent = t.btnBios;
+      document.getElementById('btn-soft').textContent = t.btnSoft;
+
       localStorage.setItem('lang', lang);
     }
 
@@ -253,6 +252,84 @@
         b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse');
       });
     }
+
+    // --- NOUVEAU : récupération dernière release GitHub ---
+    const OWNER = "LudSur"; // TODO: remplace par ton owner/organisation GitHub
+    const REPO  = "codes-constructeur";  // TODO: remplace par ton repo
+    const apiLatest = `https://api.github.com/repos/${OWNER}/${REPO}/releases/latest`;
+
+    function formatDateFR(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleString(
+          (localStorage.getItem('lang')||'fr')==='fr' ? 'fr-FR' : 'en-GB',
+          { timeZone: "Europe/Paris", year:"numeric", month:"long", day:"2-digit", hour:"2-digit", minute:"2-digit" }
+        );
+      } catch { return iso || "—"; }
+    }
+    function parseVersionFromName(name, kind) {
+      const rxSemver = new RegExp(`${kind}[^\\d]*(\\d+\\.\\d+\\.\\d+)`, "i");
+      const rxDate   = /(\d{4}[-_.]?\d{2}[-_.]?\d{2})/;
+      const m1 = name.match(rxSemver);
+      if (m1) return m1[1];
+      const m2 = name.match(rxDate);
+      if (m2) return m2[1].replace(/[-_.]/g, "-");
+      return null;
+    }
+    async function loadLatestRelease() {
+      const $fwVer = document.getElementById("fw-ver");
+      const $swVer = document.getElementById("sw-ver");
+      const $date  = document.getElementById("rel-date");
+      const $btnB  = document.getElementById("btn-bios");
+      const $btnS  = document.getElementById("btn-soft");
+      const t = translations[localStorage.getItem('lang')||'fr'];
+
+      try {
+        const res = await fetch(apiLatest, { headers: { "Accept": "application/vnd.github+json" }});
+        if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+        const release = await res.json();
+
+        const assets = release.assets || [];
+        const bios = assets.find(a => /bios/i.test(a.name));
+        const soft = assets.find(a => /soft/i.test(a.name));
+
+        const tagVer = release.tag_name || "";
+        const biosVer = bios ? (parseVersionFromName(bios.name, "bios") || tagVer) : "—";
+        const softVer = soft ? (parseVersionFromName(soft.name, "soft") || tagVer) : "—";
+
+        $fwVer.textContent = biosVer || "—";
+        $swVer.textContent = softVer || "—";
+        $date.textContent  = formatDateFR(release.published_at || release.created_at || "");
+
+        if (bios?.browser_download_url) {
+          $btnB.href = bios.browser_download_url;
+          $btnB.classList.add("ready");
+          $btnB.setAttribute("aria-disabled", "false");
+        } else {
+          $btnB.textContent = t.biosNA;
+        }
+
+        if (soft?.browser_download_url) {
+          $btnS.href = soft.browser_download_url;
+          $btnS.classList.add("ready");
+          $btnS.setAttribute("aria-disabled", "false");
+        } else {
+          $btnS.textContent = t.softNA;
+        }
+
+      } catch (err) {
+        console.error(err);
+        $date.textContent = "—";
+        $fwVer.textContent = "—";
+        $swVer.textContent = "—";
+        // Si tu utilises des noms d'assets fixes, décommente ce fallback :
+        // $btnB.href = `https://github.com/${OWNER}/${REPO}/releases/latest/download/bios_latest.bin`;
+        // $btnS.href = `https://github.com/${OWNER}/${REPO}/releases/latest/download/soft_latest.zip`;
+        // $btnB.classList.add("ready"); $btnB.setAttribute("aria-disabled","false");
+        // $btnS.classList.add("ready"); $btnS.setAttribute("aria-disabled","false");
+      }
+    }
+    // --- fin bloc release ---
 
     // Initialisation
     const radioAuto   = document.getElementById('radio-auto');
@@ -284,9 +361,7 @@
     radioManuel.addEventListener('change',updateMode);
 
     // Date manual change
-    datePicker.addEventListener('input',()=>{
-      rafraichir(new Date(datePicker.value));
-    });
+    datePicker.addEventListener('input',()=>{ rafraichir(new Date(datePicker.value)); });
 
     // Copier
     document.querySelectorAll('.copy-btn').forEach(btn=>{
@@ -307,7 +382,6 @@
         try { await navigator.share({ title:translations[localStorage.getItem('lang')||'fr'].title, text:actif }); }
         catch(e){ console.warn('Share failed',e); }
       } else {
-        // fallback : copie et alerte
         await navigator.clipboard.writeText(actif);
         alert(actif + '\n(copié dans le presse-papier)');
       }
@@ -321,6 +395,7 @@
       li.addEventListener('click',()=>{
         applyLang(li.dataset.lang);
         langSel.removeAttribute('open');
+        loadLatestRelease(); // rafraîchir libellés NA si langue change
       });
     });
 
@@ -329,10 +404,11 @@
     applyTheme(localStorage.getItem('themeDark')==='true');
     datePicker.valueAsDate = new Date();
     rafraichir(new Date());
-    setInterval(()=>{
-      if (radioAuto.checked) rafraichir(new Date());
-    },60000);
+    setInterval(()=>{ if (radioAuto.checked) rafraichir(new Date()); },60000);
     updateMode();
+
+    // Charger les infos de release au chargement
+    loadLatestRelease();
   </script>
 </body>
 </html>
