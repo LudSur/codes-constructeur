@@ -215,7 +215,7 @@
         <ul>
           <li data-lang="fr">FR</li><li data-lang="en">EN</li><li data-lang="de">DE</li>
           <li data-lang="es">ES</li><li data-lang="it">IT</li><li data-lang="pt">PT</li>
-          <li data-lang="nl">NL</li><li data-lang="sv">SV</li><li data-lang="fi">FI</li>
+          <li data-lang="nl">NL</li><li data-lang="pl">PL</li><li data-lang="sv">SV</li><li data-lang="fi">FI</li>
           <li data-lang="da">DA</li>
         </ul>
       </details>
@@ -231,25 +231,27 @@
   <script>
     // Traductions complètes
     const translations = {
-      fr:{ title:"Codes Constructeur", auto:"Auto", manuel:"Manuel", matin:"Matin", apres:"Après-midi",
+      fr:{ title:"Codes Constructeur", auto:"Auto", manuel:"Manuel", matin:"Matin", apres:"Après-midi", copie:"copié dans le presse-papier",
            disclaimer:"Réservé aux techniciens Hydronic.\nToute utilisation sans autorisation entraîne la rupture de garantie de la CTA." },
-      en:{ title:"Manufacturer Codes", auto:"Auto", manuel:"Manual", matin:"Morning", apres:"Afternoon",
+      en:{ title:"Manufacturer Codes", auto:"Auto", manuel:"Manual", matin:"Morning", apres:"Afternoon", copie:"copied to clipboard",
            disclaimer:"For Hydronic technicians only.\nUnauthorized use voids the CTA warranty." },
-      de:{ title:"Hersteller-Codes", auto:"Auto", manuel:"Manuell", matin:"Morgen", apres:"Nachmittag",
+      de:{ title:"Hersteller-Codes", auto:"Auto", manuel:"Manuell", matin:"Morgen", apres:"Nachmittag", copie:"in die Zwischenablage kopiert",
            disclaimer:"Nur für Hydronic-Techniker.\nUnbefugte Nutzung führt zum Garantieverlust der CTA." },
-      es:{ title:"Códigos Constructores", auto:"Auto", manuel:"Manual", matin:"Mañana", apres:"Tarde",
+      es:{ title:"Códigos Constructores", auto:"Auto", manuel:"Manual", matin:"Mañana", apres:"Tarde", copie:"copiado al portapapeles",
            disclaimer:"Reservado a técnicos Hydronic.\nEl uso no autorizado anula la garantía de la CTA." },
-      it:{ title:"Codici Costruttore", auto:"Auto", manuel:"Manuale", matin:"Mattina", apres:"Pomeriggio",
+      it:{ title:"Codici Costruttore", auto:"Auto", manuel:"Manuale", matin:"Mattina", apres:"Pomeriggio", copie:"copiato negli appunti",
            disclaimer:"Riservato ai tecnici Hydronic.\nL'uso non autorizzato annulla la garanzia CTA." },
-      pt:{ title:"Códigos do Fabricante", auto:"Auto", manuel:"Manual", matin:"Manhã", apres:"Tarde",
+      pt:{ title:"Códigos do Fabricante", auto:"Auto", manuel:"Manual", matin:"Manhã", apres:"Tarde", copie:"copiado para a área de transferência",
            disclaimer:"Reservado para técnicos Hydronic.\nO uso não autorizado anula a garantia da CTA." },
-      nl:{ title:"Fabrikantcodes", auto:"Auto", manuel:"Handmatig", matin:"Ochtend", apres:"Middag",
+      nl:{ title:"Fabrikantcodes", auto:"Auto", manuel:"Handmatig", matin:"Ochtend", apres:"Middag", copie:"gekopieerd naar het klembord",
            disclaimer:"Voorbehouden aan Hydronic-technici.\nOngeautoriseerd gebruik leidt tot verlies van de CTA-garantie." },
-      sv:{ title:"Tillverkarkoder", auto:"Auto", manuel:"Manuell", matin:"Morgon", apres:"Eftermiddag",
+      pl:{ title:"Kody producenta", auto:"Auto", manuel:"Ręczny", matin:"Rano", apres:"Po południu", copie:"skopiowano do schowka",
+           disclaimer:"Tylko dla techników Hydronic.\nNieuprawnione użycie powoduje utratę gwarancji CTA." },
+      sv:{ title:"Tillverkarkoder", auto:"Auto", manuel:"Manuell", matin:"Morgon", apres:"Eftermiddag", copie:"kopierat till urklipp",
            disclaimer:"Endast för Hydronic-tekniker.\nObehörig användning upphäver CTA-garantin." },
-      fi:{ title:"Valmistajakoodit", auto:"Auto", manuel:"Manuaalinen", matin:"Aamu", apres:"Ilta",
+      fi:{ title:"Valmistajakoodit", auto:"Auto", manuel:"Manuaalinen", matin:"Aamu", apres:"Ilta", copie:"kopioitu leikepöydälle",
            disclaimer:"Vain Hydronic-teknikoille.\nLuvaton käyttö mitätöi CTA-takuun." },
-      da:{ title:"Producentkoder", auto:"Auto", manuel:"Manuel", matin:"Morgen", apres:"Eftermiddag",
+      da:{ title:"Producentkoder", auto:"Auto", manuel:"Manuel", matin:"Morgen", apres:"Eftermiddag", copie:"kopieret til udklipsholderen",
            disclaimer:"Kun for Hydronic-teknikere.\nUautoriseret brug ophæver CTA-garantien." }
     };
 
@@ -331,14 +333,15 @@
     shareBtn.addEventListener('click',async()=>{
       const now = new Date(), h = now.getHours();
       const codes = calculerCodes(now);
-      const actif = h < 12 ? `Matin: ${codes.matin}` : `Après-midi: ${codes.apres}`;
+      const t = translations[localStorage.getItem('lang')||'fr'] || translations.fr;
+      const actif = h < 12 ? `${t.matin}: ${codes.matin}` : `${t.apres}: ${codes.apres}`;
       if (navigator.share) {
-        try { await navigator.share({ title:translations[localStorage.getItem('lang')||'fr'].title, text:actif }); }
+        try { await navigator.share({ title:t.title, text:actif }); }
         catch(e){ console.warn('Share failed',e); }
       } else {
         // fallback : copie et alerte
         await navigator.clipboard.writeText(actif);
-        alert(actif + '\n(copié dans le presse-papier)');
+        alert(actif + '\n(' + t.copie + ')');
       }
     });
 
