@@ -5,59 +5,76 @@
   <meta charset="UTF-8">
   <title>Codes Constructeur</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* Charte reprise de hydronic.com : Sora (titres), Inter (texte d'interface),
+       vert foncé #062e2b, sarcelle #00a6a3 / #19c7b7, menthe #bfedea. */
     :root {
-      --bg-page: #f0f2f5;
+      --bg-page: #062e2b;
       --bg-card: #ffffff;
-      --text-primary: #333333;
-      --text-secondary: #666666;
-      --accent: #4a90e2;
-      --shadow: rgba(0,0,0,0.1);
-      --accent-rgb: 74,144,226;
+      --bg-block: #bfedea;
+      --text-primary: #062e2b;
+      --text-secondary: #6b7280;
+      --code-color: #062e2b;
+      --accent: #00a6a3;
+      --accent-rgb: 0,166,163;
+      --border: #bfedea;
+      --shadow: rgba(6,46,43,0.25);
     }
     .dark {
-      --bg-page: #1e1e1e;
-      --bg-card: #2a2a2a;
-      --text-primary: #eeeeee;
-      --text-secondary: #bbbbbb;
-      --accent: #6ca0dc;
+      --bg-page: #0e211e;
+      --bg-card: #062e2b;
+      --bg-block: #164037;
+      --text-primary: #ffffff;
+      --text-secondary: #bfedea;
+      --code-color: #19c7b7;
+      --accent: #19c7b7;
+      --accent-rgb: 25,199,183;
+      --border: #24584e;
+      --shadow: rgba(0,0,0,0.4);
     }
     * { box-sizing: border-box; margin:0; padding:0 }
     body {
       background: var(--bg-page);
       color: var(--text-primary);
-      font-family: 'Segoe UI',sans-serif;
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
       display: flex;
       align-items: center; justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 1rem;
       transition: background .3s, color .3s;
     }
     .card {
       background: var(--bg-card);
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px var(--shadow);
-      width: 90%; max-width: 360px;
+      padding: 2rem 1.75rem 1.5rem;
+      border-radius: 4px;
+      border-top: 4px solid var(--accent);
+      box-shadow: 0 8px 24px var(--shadow);
+      width: 100%; max-width: 380px;
       text-align: center;
     }
     /* Logo LFB Group | Hydronic : conçu pour fond clair, donc placé sur une plaque blanche
        (invisible sur la carte claire, nécessaire en thème sombre). */
     .logo {
       width: 260px; max-width: 100%; height: auto;
-      margin: 0 auto 1rem; display: block;
-      background: #ffffff; border-radius: 6px; padding: .3rem .5rem;
+      margin: 0 auto 1.25rem; display: block;
+      background: #ffffff; border-radius: 2px; padding: .3rem .5rem;
     }
     h1 {
-      color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem;
+      font-family: 'Sora', sans-serif; font-weight: 600;
+      color: var(--text-primary); font-size: 1.5rem;
+      letter-spacing: -.01em; margin-bottom: 1.25rem;
     }
     #controls {
       display: flex; flex-wrap: wrap;
       justify-content: center; align-items: center;
-      gap: .5rem; margin-bottom: 1.5rem;
+      gap: .75rem; margin-bottom: 1.5rem;
     }
-    [role="radiogroup"] { display: flex; gap: .5rem; }
+    [role="radiogroup"] { display: flex; gap: .75rem; }
     label {
-      position: relative; padding-left: 1.8rem;
+      position: relative; padding-left: 1.6rem;
       font-size: .9rem; color: var(--text-secondary);
       cursor: pointer; user-select: none;
     }
@@ -71,38 +88,42 @@
     }
     input[type="radio"]:checked + span {
       background: var(--accent);
+      box-shadow: inset 0 0 0 2px var(--bg-card);
     }
+    input[type="radio"]:focus-visible + span { outline:2px solid var(--accent); outline-offset:2px; }
     input[type="date"] {
       padding: .4rem .5rem;
-      border:1px solid #ccc;
-      border-radius:6px;
-      font-size:.9rem;
+      border:1px solid var(--border);
+      border-radius:2px;
+      font-family: inherit; font-size:.9rem;
       background: var(--bg-card);
       color: var(--text-primary);
     }
+    input[type="date"]:disabled { opacity:.6; }
     .code-block {
-      background: var(--bg-page);
-      margin: .5rem 0;
-      padding: .8rem 1rem;
-      border-radius:8px;
-      box-shadow:0 2px 8px var(--shadow);
+      background: var(--bg-block);
+      margin: .6rem 0;
+      padding: .9rem 1rem;
+      border-radius:2px;
     }
     .label-code {
-      font-size:.8rem; color:var(--text-secondary);
-      text-transform:uppercase; margin-bottom:.3rem;
+      font-size:.75rem; font-weight:500; color:var(--text-primary);
+      text-transform:uppercase; letter-spacing:.08em; margin-bottom:.35rem;
     }
     .code-wrapper {
       display:flex; align-items:center; justify-content:center;
     }
     .code-value {
-      font-size:2.5rem; font-weight:bold;
-      color:var(--accent); line-height:1;
+      font-family: 'Sora', sans-serif;
+      font-size:2.5rem; font-weight:600; letter-spacing:.06em;
+      color:var(--code-color); line-height:1;
+      font-variant-numeric: tabular-nums;
     }
     .copy-btn {
       background:none; border:none; margin-left:.5rem;
       font-size:1.2rem; cursor:pointer; color:var(--text-secondary);
     }
-    .copy-btn:focus { outline:2px solid var(--accent); }
+    .copy-btn:focus-visible { outline:2px solid var(--accent); }
     @keyframes pulse {
       0%   { box-shadow:0 0 0 0 rgba(var(--accent-rgb),.7); }
       70%  { box-shadow:0 0 0 10px rgba(var(--accent-rgb),0); }
@@ -112,33 +133,36 @@
 
     .footer-btns {
       display:flex; justify-content:center;
-      align-items:center; gap:.5rem; margin-top:1rem;
+      align-items:center; gap:.75rem; margin-top:1.25rem;
+      padding-top:1rem; border-top:1px solid var(--border);
     }
     .footer-btns button,
     .footer-btns summary {
       background:none; border:none; cursor:pointer;
       font-size:1.2rem; color:var(--accent);
     }
+    .footer-btns details { position:relative; }
     .footer-btns details summary { list-style:none; }
+    .footer-btns details summary::-webkit-details-marker { display:none; }
     .lang-selector ul {
-      position:absolute; top:1.4em; right:0;
+      position:absolute; bottom:1.8em; left:50%; transform:translateX(-50%);
       margin:0; padding:.2rem 0; list-style:none;
-      background:var(--bg-card); border:1px solid #ccc;
-      border-radius:4px; box-shadow:0 2px 8px var(--shadow);
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:2px; box-shadow:0 2px 8px var(--shadow);
       display:none; z-index:10;
     }
     .lang-selector[open] ul { display:block; }
     .lang-selector ul li {
-      padding:.3rem .8rem; font-size:.85rem;
+      padding:.3rem .9rem; font-size:.85rem;
       color:var(--text-primary); white-space:nowrap;
       cursor:pointer;
     }
-    .lang-selector ul li:hover { background:var(--bg-page); }
+    .lang-selector ul li:hover { background:var(--bg-block); }
 
     .disclaimer {
       margin-top:1rem; font-size:.75rem;
       color:var(--text-secondary);
-      text-align:center; line-height:1.2;
+      text-align:center; line-height:1.4;
       white-space:pre-wrap;
     }
   </style>
@@ -319,7 +343,7 @@
     });
 
     // Aide
-    helpBtn.addEventListener('click',()=>window.open('https://www.hydronic.fr/configuration-mcx','_blank'));
+    helpBtn.addEventListener('click',()=>window.open('https://www.hydronic.com/documents','_blank'));
 
     // Langue
     langSel.querySelectorAll('li').forEach(li=>{
